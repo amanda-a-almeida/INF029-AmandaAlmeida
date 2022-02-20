@@ -1,1 +1,37 @@
-.
+/******************************************************************************
+
+Faça um programa que leia 10 números do usuário e informe quais deles é primo. 
+Além disso, mostre a soma de todos os números primos existentes
+
+*******************************************************************************/
+
+#include <stdio.h>
+int lista[10], cont, posi=0, fat=1, soma=0;
+
+int main()
+{
+    for (int i=0; i<10; i++){
+        printf("Digite um número inteiro: ");
+        scanf("%d", &lista[i]);
+    }
+    printf("Números primos encontrados:\n");
+    while (posi < 10){
+        
+        while (fat <= lista[posi]){
+            if (lista[posi] % fat == 0){
+                cont++;
+            }
+            fat++;
+        }
+        if (cont <= 2){
+            printf("%d é primo.\n", lista[posi]);
+            soma += lista[posi];
+        }
+        posi++;
+        cont=0;
+        fat=1;
+    }
+    printf("\n A soma dos números primos é: %d", soma);
+
+    return 0;
+}
