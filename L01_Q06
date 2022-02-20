@@ -1,0 +1,27 @@
+/******************************************************************************
+
+Faça um programa que verifique se um número é primo
+
+*******************************************************************************/
+
+#include <stdio.h>
+int num, contador = 0, i=1;
+
+int main()
+{
+    printf("Digite um número para ver se ele é primo: ");
+    scanf("%d", &num);
+    while (i <= num){
+        if (num % i == 0){
+            contador++;
+        }
+        i++;
+    }
+    if (contador > 2){
+        printf("O número %d não é primo!", num);
+    }else{
+        printf("O número %d é primo!", num);
+    }
+
+    return 0;
+}
