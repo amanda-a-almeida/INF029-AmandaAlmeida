@@ -1,0 +1,26 @@
+/******************************************************************************
+
+Faça um programa que leia dois valores informados pelo usuário e inverta os 
+valores nas variáveis lidas **sem utilizar variável auxiliar**
+
+*******************************************************************************/
+
+#include <stdio.h>
+int v1, v2;
+
+int main()
+{
+    printf("Digite o primeiro valor: ");
+    scanf("%d", &v1);
+    printf("Digite o segundo valor: ");
+    scanf("%d", &v2);
+    printf("Primeiro Valor: %d \nSegunda Valor: %d", v1, v2);
+
+    v1 = v1 + v2;
+    v2 = v1 - v2;
+    v1 = v1 - v2;
+    
+    printf("\nInvertendo... \nPrimeiro Valor: %d \nSegunda Valor: %d", v1, v2);
+
+    return 0;
+}
