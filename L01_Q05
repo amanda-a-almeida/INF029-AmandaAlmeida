@@ -1,0 +1,22 @@
+/******************************************************************************
+
+Faça um programa que leia a idade de uma pessoa e informe se ela é de maior
+
+*******************************************************************************/
+
+#include <stdio.h>
+int idade;
+
+int main()
+{
+    printf("Digite a idade do usuário: ");
+    scanf("%d", &idade);
+    if (idade >= 18){
+        printf("Maior de idade!");
+    }
+    else{
+        printf("Menor de idade...");
+    }
+
+    return 0;
+}
