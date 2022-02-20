@@ -1,0 +1,15 @@
+/******************************************************************************
+
+Faça um programa que imprima o seu nome, sua matrícula, 
+e o seu semestre de ingresso no curso. Cada informação em uma linha.
+
+*******************************************************************************/
+
+#include <stdio.h>
+
+int main()
+{
+    printf("Nome: Amanda Araújo Almeida \nMatrícula: 20212160004 \nSemestre de Ingresso: 2021.2");
+
+    return 0;
+}
