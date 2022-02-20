@@ -1,0 +1,22 @@
+/******************************************************************************
+
+Faça um programa que calcula o fatorial de um número
+
+*******************************************************************************/
+
+#include <stdio.h>
+int num, fat;
+
+int main()
+{
+    printf("Digite um número: ");
+    scanf("%d", &num);
+    fat = num - 1;
+    printf("\n%d! = %d", num, num);
+    while (fat > 0){
+        printf(" x %d",fat);
+        fat--;
+    }
+
+    return 0;
+}
