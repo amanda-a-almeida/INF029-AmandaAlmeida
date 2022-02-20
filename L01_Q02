@@ -1,0 +1,21 @@
+/******************************************************************************
+
+Faça um programa que leia a idade de duas pessoas e imprima a soma das idades
+
+*******************************************************************************/
+
+#include <stdio.h>
+int i1, i2, soma;
+
+int main()
+{
+    printf("Digite a idade do primeiro usuário: ");
+    scanf("%d", &i1);
+    printf("Digite a idade do segundo usuário: ");
+    scanf("%d", &i2);
+    soma = i1 + i2;
+    
+    printf("Soma das idade: %d", soma);
+
+    return 0;
+}
