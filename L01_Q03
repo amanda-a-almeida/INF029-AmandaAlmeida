@@ -19,7 +19,7 @@ int main()
     v1 = soma - v1;
     v2 = soma - v1;
     
-    printf("\nInvertendeo... \nPrimeiro Valor: %d \nSegunda Valor: %d", v1, v2);
+    printf("\nInvertendo... \nPrimeiro Valor: %d \nSegunda Valor: %d", v1, v2);
 
     return 0;
 }
