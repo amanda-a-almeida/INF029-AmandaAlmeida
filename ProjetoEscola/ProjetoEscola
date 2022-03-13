@@ -1,0 +1,8 @@
+#include <stdio.h>
+
+int main()
+{
+    printf("Nome: Amanda Araújo Almeida \nMatrícula: 20212160004 \nSemestre de Ingresso: 2021.2");
+
+    return 0;
+}
