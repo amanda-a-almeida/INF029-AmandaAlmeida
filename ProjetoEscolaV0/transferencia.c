@@ -1,13 +1,14 @@
 #include <stdio.h>
+#include <string.h>
 
-int mi = 0, ver1 = 1, ver2, ver3;//mi = escolha do menu inicial
+int mi = 0, verificador_menu_inicial = 1, ver2, ver3;//mi = escolha do menu inicial
 int comp;
 int matricula_exclusao;
 int cont; //contador geral do vetor pessoas para o cadastro
 
 int main()
 {
-    while (ver1 == 1){
+    while (verificador_menu_inicial == 1){
         printf("Menu inicial\n");
         printf("\n\n Digite a opção desejada.\n\n");
         printf("1 - Cadastro.\n");
@@ -21,7 +22,7 @@ int main()
         }
         else{
             printf("\nOpção inválida, tente novamente.\n");
-            ver1 = 1;
+            verificador_menu_inicial = 1;
         }       
     }
     return 0;
@@ -43,7 +44,7 @@ int cadastro_aluno (void) { //função de cadastro de aluno criar variavel cumul
         for (ver3 < 1, ver3 = 0, ver3++){//repetição para a verificação da data
             printf("Digite a data de nascimento no formato dd/mm/aaaa\n");
             scanf("%d/%d/%d", &pessoas[cont].dia_nascimento, pessoas[cont].mes_nascimento, pessoas[cont].ano_nascimento);
-            //chamar função de verificação de data
+            valida_data(pessoas[cont].dia_nascimento, pessoas[cont].mes_nascimento, pessoas[cont].ano_nascimento);//validaçao da data
         }
         for (ver3 < 1, ver3 = 0, ver3 ++){
             printf("Digite o CPF, sem pontos ou traço:\n");
@@ -69,10 +70,10 @@ int cadastro_professor (void) { //funçaõ de cadastro de professor
         }
         printf("Digite O sexo:\n");
         scanf("%c", &pessoas[cont].sexo);
-        for (ver3 < 1, ver3 = 0, ver3++){//repetição para a verificação da data
+        while (ver3 < 1, ver3 = 0, ver3++){//repetição para a verificação da data
             printf("Digite a data de nascimento no formato dd/mm/aaaa\n");
             scanf("%d/%d/%d", &pessoas[cont].dia_nascimento, pessoas[cont].mes_nascimento, pessoas[cont].ano_nascimento);
-            //chamar função de verificação de data
+            valida_data(pessoas[cont].dia_nascimento, pessoas[cont].mes_nascimento, pessoas[cont].ano_nascimento);//função de validação da data
         }
         for (ver3 < 1, ver3 = 0, ver3 ++){
             printf("Digite o CPF, sem pontos ou traço:\n");
@@ -205,5 +206,47 @@ int atualizar_pessoa(void){ ///função de atualizar cadastro
             u++;
         }
         u++;
+    }
+}
+
+int valida_data (int d,int m,int a){//passar parametros para função (pessoas[].dia, pessoas[].mes, pessoas[].ano)
+int mes_fev = 28;
+if((a%4==0)||((a%100==0)&&(a%400==0)){
+    mes_fev = 29;
+}
+if((m==(1||3||5||7||8||10||12)){
+    d <= 31;
+}
+if(m==2){
+    d <= mes_fev;
+}
+if(m==(4||6||9||11)){
+    d <= 30;
+}
+else{
+    printf("\nData invalida digite novamente.\n");
+    return -30; //retorno de erro pera continuar o while de digitar a data novamente
+}
+return - 40; //retorno que vai permitir a continuação do cadastro  
+}
+
+int lista_alunos(void){
+    printf("\nLista de aluno:\n\n");
+    u = 0;
+    tam = strlen(pessoas);
+    while (u < tam){
+        if(pessoas[u].matricula > 0 && pessoas[u].classificacao == 1){
+            printf("%s\n",pessoas[u].nome);    
+        }
+    }
+}
+int lista_professores(void){
+    printf("\nLista de aluno:\n\n");
+    u = 0;
+    tam = strlen(pessoas);
+    while (u < tam){
+        if(pessoas[u].matricula > 0 && pessoas[u].classificacao == 0){
+            printf("%s\n",pessoas[u].nome);    
+        }
     }
 }
