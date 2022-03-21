@@ -905,3 +905,121 @@ int main(){
                
     }
 }
+
+/*menu de matricula
+int menu_matricula(void){
+    int opcao_matricula;
+    printf("Digite a opção desejada:\n1 - Matricular Aluno.\n2 - Excluir aluno de Disciplina.\n0 - Retornar ao menu Inicial.\n");
+    scanf("%d", &opcao_matricula);
+    switch(opcao_matricula){
+        case 1:
+            matricula();
+            opcao_matricula();
+        case 2:
+            excluir_matricula();
+            opcao_matricula();
+        case 0:
+            menu_inicial();
+        default:
+            printf("Opção invalida!");
+            opcao_matricula();
+    }
+}
+
+int matricula(){
+    char codigo[6];
+    int comparador;
+    int seletor_disciplina = 0;
+    int seletor_matricula = 0;
+    int repetidor = 0;
+    int opcao;
+    int u = 0;
+    Printf("Digite o Código da Disciplina:\n");
+    scanf("%s", &codigo);
+    do{
+        for (u=0; u<cont2; u++){
+            comparador = strcmp(codigo, disciplina[u].codigo);
+            if(comparador == 0){
+                seletor_disciplina = u;
+                u = cont2;
+                repetidor ++;
+            }
+        }
+    }while(repetidor == 0);
+    repetidor = 0;
+    do{
+        printf("Disciplina %s\n", disciplina[seletor_disciplina].nome_disciplina);
+        printf("Digite a Matricula do aluno que você deseja Excluir da Disciplina:\n");
+        scanf("%d", &comparador);
+        for(u=0; u<cont; u++){
+            if (comparador == pessoas[u].matricula){
+                seletor_matricula = u;
+                u = cont;
+                repetidor ++;
+            }        
+        }
+    }while(repetidor == 0);
+    repetidor = 0;
+    do{
+        printf("Voce Deseja Excluir o aluno %s na Disicplina %s?\n1 - Sim\n2 - Não", pessoas[seletor_matricula].nome, disciplina[seletor_disciplina].nome_disciplina);
+        scanf("%d", &opcao);
+        switch(opcao){
+            case 1:
+                //mudar o contador de matriculados da disciplina e adicionar o contador de disicplinas do aluno
+                repetidor ++;
+            case 2:
+                menu_matricula();
+            default:
+                printf("\n*** Opção Inválida! **\n");
+        }
+    } while(repetidor == 0);
+}
+int excluir_matricula(void){
+    char codigo[6];
+    int comparador;
+    int seletor_disciplina = 0;
+    int seletor_matricula = 0;
+    int repetidor = 0;
+    int opcao;
+    int u = 0;
+    Printf("Digite o Código da Disciplina:\n");
+    scanf("%s", &codigo);
+    do{
+        for (u=0; u<cont2; u++){
+            comparador = strcmp(codigo, disciplina[u].codigo);
+            if(comparador == 0){
+                seletor_disciplina = u;
+                u = cont2;
+                repetidor ++;
+            }
+        }
+    }while(repetidor == 0);
+    repetidor = 0;
+    do{
+        printf("Disciplina %s\n", disciplina[seletor_disciplina].nome_disciplina);
+        printf("Digite a Matricula do aluno que você deseja matricular:\n");
+        scanf("%d", &comparador);
+        for(u=0; u<cont; u++){
+            if (comparador == pessoas[u].matricula){
+                seletor_matricula = u;
+                u = cont;
+                repetidor ++;
+            }        
+        }
+    }while(repetidor == 0);
+    repetidor = 0;
+    do{
+        printf("Voce Deseja Matricular o aluno %s na Disicplina %s?\n1 - Sim\n2 - Não", pessoas[seletor_matricula].nome, disciplina[seletor_disciplina].nome_disciplina);
+        scanf("%d", &opcao);
+        switch(opcao){
+            case 1:
+                //mudar o contador de matriculados da disciplina e adicionar o contador de disicplinas do aluno
+                repetidor ++;
+            case 2:
+                menu_matricula();
+            default:
+                printf("\n*** Opção Inválida! **\n");
+        }
+    } while(repetidor == 0);
+}
+*/
