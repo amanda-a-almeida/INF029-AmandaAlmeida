@@ -7,9 +7,9 @@
 //#include "opcoesMenuV0.h"
 
 //  Variáveis Globais  
-int opcao, cont =0, contd =0, verificador_menu_inicial = 1, cadastrar_novamente = 2;//opcao = escolha do menu inicial
+int opcao, cont =0, contd =0, verificador_menu_inicial = 1, cadastrar_novamente = 2, excluir_novamente = 2;//opcao = escolha do menu inicial
 int comp;
-int matricula_exclusao;
+long long int matricula_exclusao;
 #define TAM 5 //contador geral do vetor pessoas para o cadastro
 
 
@@ -128,15 +128,17 @@ dados_disciplina disciplina[TAM];
 
 //  Módulo de cadatro de Disciplinas
 int cadastro_disciplina(int cadastrar_novamente){
-    printf("Nome da Disciplina: \n");
+    getchar();  // absorve o '\n' que o scanf não leu
+    printf("Nome da Disciplina: \n>>> ");    
+    fflush(stdin);
     fgets(disciplina[contd].nome_disciplina, 50, stdin);
     for(int i=0; disciplina[contd].nome_disciplina[i]; i++) if(disciplina[contd].nome_disciplina[i]=='\n') disciplina[contd].nome_disciplina[i]=0;
-    printf("Código da Disciplina (6 dígitos): ");
+    printf("Código da Disciplina (6 dígitos): \n>>> ");
     scanf("%s", &disciplina[contd].codigo_disciplina);
     
     do
     {
-        printf("Semestre da Disciplina: ");
+        printf("Semestre da Disciplina: \n>>> ");
         scanf("%i", &disciplina[contd].semestre);
         if ( !((disciplina[contd].semestre > 0) || (disciplina[contd].semestre <= 10)) ){
             printf("\n***** Semestre Inválido! *****\n");
@@ -174,21 +176,25 @@ int cadastro_disciplina(int cadastrar_novamente){
 
 
 //  Módulo de cadatro de Alunos e Professores
-int cadastro_pessoa (int opcao_cadastro, int cadastrar_novamente) {
-    char tipo_pessoa[15];         
+int cadastro_pessoa (int opcao_cadastro, int cadastrar_novamente) { 
+    //char tipo_pessoa[15];
+    char *tipo_pessoa;        
     if (opcao_cadastro == 1){
-            char tipo_pessoa[] = "Aluno";
+
+            //char tipo_pessoa[] = "Aluno";
+            tipo_pessoa = "Aluno";
             pessoas[cont].classificacao = 1;
         }
     else if (opcao_cadastro == 2){
-            char tipo_pessoa[] = "Professor";
+            //char tipo_pessoa[] = "Professor";
+            tipo_pessoa = "Professor";
             pessoas[cont].classificacao = 0;
         }
 
     printf("\nDigite o Numero da Matricula (11 Digitos):\n>>> ");
     scanf("%lld", &pessoas[cont].matricula);
     getchar();  // absorve o '\n' que o scanf não leu
-    printf("\nDigite o Nome do %s:\n>>> ", tipo_pessoa);
+    printf("\nDigite o Nome do %s:\n>>> ", tipo_pessoa); 
     fflush(stdin);
     fgets(pessoas[cont].nome, 50, stdin);
     for(int i=0; pessoas[cont].nome[i]; i++) if(pessoas[cont].nome[i]=='\n') pessoas[cont].nome[i]=0;
@@ -209,16 +215,6 @@ int cadastro_pessoa (int opcao_cadastro, int cadastrar_novamente) {
         scanf("%d/%d/%d", &pessoas[cont].dia_nascimento, &pessoas[cont].mes_nascimento, &pessoas[cont].ano_nascimento);
         check_data = valida_data(pessoas[cont].dia_nascimento, pessoas[cont].mes_nascimento, pessoas[cont].ano_nascimento);//validaçao da data
     } while (check_data==-1);
-    
-
- /*   int check_data=0;
-    for (check_data < 1; check_data = 0; check_data++)
-    {//repetição para a verificação da data
-        printf("Digite a data de nascimento no formato dd/mm/aaaa\n");
-        scanf("%d/%d/%d", &pessoas[cont].dia_nascimento, &pessoas[cont].mes_nascimento, &pessoas[cont].ano_nascimento);
-        check_data = valida_data(pessoas[cont].dia_nascimento, pessoas[cont].mes_nascimento, pessoas[cont].ano_nascimento);//validaçao da data
-
-    } */
 
     int check_cpf = -1;
     do
@@ -232,19 +228,6 @@ int cadastro_pessoa (int opcao_cadastro, int cadastrar_novamente) {
 
     } while (check_cpf == -1);
     
-/*
-    int check_cpf=0;
-    for (check_cpf < 1; check_cpf = 0; check_cpf++){       
-        getchar();
-        printf("Digite o CPF (sem pontos ou traços):\n");
-        fflush(stdin);
-        fgets(pessoas[cont].cpf, 12, stdin);
-        for(int i=0; pessoas[cont].cpf[i]; i++) if(pessoas[cont].cpf[i]=='\n') pessoas[cont].cpf[i]=0;
-
-        // printf("Digite o CPF (sem pontos ou traços):\n");
-        // scanf("%s",&pessoas[cont].cpf);
-        check_cpf = valida_cpf(pessoas[cont].cpf);        
-    } */
     cont++;
     printf("\n*****     Cadastro realizado com sucesso!     *****\n");
 
@@ -258,6 +241,55 @@ int cadastro_pessoa (int opcao_cadastro, int cadastrar_novamente) {
     } while (!(cadastrar_novamente == 1 || cadastrar_novamente == 0));
     return cadastrar_novamente;
 }
+
+
+// Módulo Excluir Alunos e Professores
+int excluir_pessoa(int opcao_cadastro, int excluir_novamente){ //função de excluir cadastro
+    char *tipo_pessoa;
+    int u = 0;
+    if (opcao_cadastro == 1){
+            tipo_pessoa = "Aluno";
+            lista_alunos();
+        }
+    else if (opcao_cadastro == 0){
+            tipo_pessoa = "Professor";
+            lista_professores();
+        
+    }
+
+    printf("\n********************************************************************\n");
+    printf("Digite a matricula do %S que deseja excluir.\n>>> ", tipo_pessoa);
+    scanf("%lld", &matricula_exclusao);
+
+    int mat = 0; // contador que identifica quantas vezes o else if foi acessado para saber se a matricula existe ou não
+    for(u ; u <= cont; u++){
+        if( (pessoas[u].classificacao ==  opcao_cadastro) && (matricula_exclusao == pessoas[u].matricula) ){
+            pessoas[u].matricula *= (-1);
+            u = cont;
+        }else if( (pessoas[u].classificacao ==  opcao_cadastro) && (matricula_exclusao != pessoas[u].matricula) ){
+            mat++;
+        }
+    }
+    if ((mat == cont)){
+        printf("\n***** Matrícula não Encontrada! *****\n");
+
+    } else if ( (u == cont) && (mat < cont)){
+        printf("\n***** Matrícula Excluida! *****\n");
+    }
+
+    do
+    {
+        printf("\nDeseja excluir outra matrícula de %s?\n  (1 - Sim / 0 - Não)\n>>> ", tipo_pessoa);
+        scanf("%d", &excluir_novamente);
+        if (!(excluir_novamente == 1 || excluir_novamente == 0)){
+            printf("\n***** Opção Inválida! ****\n");
+        }
+    } while (!(excluir_novamente == 1 || excluir_novamente == 0));
+    return excluir_novamente;
+}
+
+
+// Módulo Alterar Alunos e Professores
 
 
 //**********************************************
@@ -299,13 +331,18 @@ int lista_disciplinas(void){
     printf("\n****************************\n");
     printf(  "*     Lista Disciplinas    *");
     printf("\n****************************\n");
-    int u = 0, tam;
+    int d = 0, tam, u = 0;
+    char *nome_professor;
     tam = contd;  // contador de disciplinas cadastradas
-    while (u < tam){
-        if(pessoas[u].matricula > 0 && pessoas[u].classificacao == 0){
-            printf("Professor: %s, Matrícula: %lld\n",pessoas[u].nome, pessoas[u].matricula);     
+    while (d < tam){
+        for(u = 0; u < cont; u++){
+            if( (pessoas[u].matricula == disciplina[d].matricula_professor) &&  (pessoas[u].classificacao) == 0){                
+                nome_professor = &pessoas[u].nome;
+                u = cont;                 
+            }
         }
-        u++;
+        printf("Nome: %s, Codigo: %s, Semestre: %d, Matrícula Professor: %lld, Nome Professor: %s\n",disciplina[d].nome_disciplina, disciplina[d].codigo_disciplina, disciplina[d].semestre, disciplina[d].matricula_professor, nome_professor);     
+        d++;
     }
 }
 
@@ -316,7 +353,71 @@ int lista_disciplinas(void){
 
 
 // 6 - Listar Alunos Ordenados por Nome
+void ordenar (int opcao_relatorio){
+    char *tipo_pessoa;
+    int u = 0;
+    if (opcao_cadastro == 1){
+            tipo_pessoa = "Aluno";
+            lista_alunos();
+        }
+    else if (opcao_cadastro == 0){
+            tipo_pessoa = "Professor";
+            lista_professores();
+        
+    }
+    
+    printf("\n****************************\n");
+    printf(  "*    Ordenados por Nome    *");
+    printf("\n****************************\n");    
 
+    char ordenador_aluno[cont];
+    char ordenador_professor[cont];
+    int u, u2, contador;
+    char auxiliar[50];
+    for(u=0; u<cont; u++){//preenche o ordenador de aluno e de professor
+        if(opcao_relatorio == 6){
+            if(pessoas[u].classificacao == 1){
+            strcpy(pessoas[u].nome,ordenador_aluno[u]);
+            }
+        }else if(opcao_relatorio == 9){
+            if(pessoas[u].classificacao == 0){
+                strcpy(pessoas[u].nome,ordenador_professor[u]);
+            }
+        }
+    }
+    for (u = 0; u<cont; u++){//ordena aluno
+        for (u2 = u+1; u2<cont; u2++){
+            contador = strcmp(ordenador_aluno[u], ordenador_aluno[u2]);
+            if(contador > 0){
+                strcpy(auxiliar,ordenador_aluno[u]);
+                strcpy(ordenador_aluno[u], ordenador_aluno[u2]);
+                strcpy(ordenador_aluno[u2],auxiliar);
+            }
+        }
+    }
+    for (u = 0; u<cont; u++){//ordena professor
+        for (u2 = u+1; u2<cont; u2++){
+            contador = strcmp(ordenador_professor[u], ordenador_professor[u2]);
+            if(contador > 0){
+                strcpy(auxiliar,ordenador_professor[u]);
+                strcpy(ordenador_professor[u], ordenador_professor[u2]);
+                strcpy(ordenador_professor[u2],auxiliar);
+            }
+        }
+    }
+    if(opcao_relatorio == 6){
+        for(u=0; u<cont; u++){
+                printf("%s", ordenador_aluno[u]);
+            }
+    }
+    else if(opcao_relatorio == 9){
+        for(u=0; u<cont; u++){
+                printf("%s", ordenador_professor[u]);
+            }
+    }
+    
+    
+}
 
 // 7 - Listar Alunos Ordenados por Data de Nascimento
 
@@ -324,7 +425,74 @@ int lista_disciplinas(void){
 // 8 - Listar Professores por Sexo (M/F)
 
 
-// 9 - Listar Professores por Sexo (M/F)
+// 9 - Listar Professores Ordenados por Nome
+        // >>> feito no item 6
+
+void ordenar (int opcao_cadastro){
+    char *tipo_pessoa;
+    int u = 0;
+    if (opcao_cadastro == 1){
+            tipo_pessoa = "Aluno";
+            lista_alunos();
+        }
+    else if (opcao_cadastro == 0){
+            tipo_pessoa = "Professor";
+            lista_professores();
+        
+    }
+    
+    printf("\n****************************\n");
+    printf(  "*    Ordenados por Nome    *");
+    printf("\n****************************\n");    
+
+    char ordenador_aluno[cont];
+    char ordenador_professor[cont];
+    int u, u2, contador;
+    char auxiliar[50];
+    for(u=0; u<cont; u++){//preenche o ordenador de aluno e de professor
+        if(opcao_relatorio == 6){
+            if(pessoas[u].classificacao == 1){
+            strcpy(pessoas[u].nome,ordenador_aluno[u]);
+            }
+        }else if(opcao_relatorio == 9){
+            if(pessoas[u].classificacao == 0){
+                strcpy(pessoas[u].nome,ordenador_professor[u]);
+            }
+        }
+    }
+    for (u = 0; u<cont; u++){//ordena aluno
+        for (u2 = u+1; u2<cont; u2++){
+            contador = strcmp(ordenador_aluno[u], ordenador_aluno[u2]);
+            if(contador > 0){
+                strcpy(auxiliar,ordenador_aluno[u]);
+                strcpy(ordenador_aluno[u], ordenador_aluno[u2]);
+                strcpy(ordenador_aluno[u2],auxiliar);
+            }
+        }
+    }
+    for (u = 0; u<cont; u++){//ordena professor
+        for (u2 = u+1; u2<cont; u2++){
+            contador = strcmp(ordenador_professor[u], ordenador_professor[u2]);
+            if(contador > 0){
+                strcpy(auxiliar,ordenador_professor[u]);
+                strcpy(ordenador_professor[u], ordenador_professor[u2]);
+                strcpy(ordenador_professor[u2],auxiliar);
+            }
+        }
+    }
+    if(opcao_relatorio == 6){
+        for(u=0; u<cont; u++){
+                printf("%s", ordenador_aluno[u]);
+            }
+    }
+    else if(opcao_relatorio == 9){
+        for(u=0; u<cont; u++){
+                printf("%s", ordenador_professor[u]);
+            }
+    }
+    
+    
+}
 
 
 // 10 - Listar Professores Ordenados por Data de Nascimento
@@ -335,51 +503,41 @@ int lista_disciplinas(void){
 
 // 12 - Buscar (Professor / Aluno) por Parte do Nome
 int buscar_pessoa(void){
-    char tipo_pessoa[15];
-    int buscalen, len;
+    //char tipo_pessoa[15];
+    char *tipo_pessoa;
+    int buscalen, len, u = 0;
     char busca[50];
+    char *pont_busca;
     printf("\n****************************\n");
     printf(  "*       Menu de Busca      *");
     printf("\n****************************\n");
     printf("Digite pelo menos 3 letras do nome da pessoa para busca-la:\n>>> ");
     getchar();
     fgets(busca, 50, stdin);
-    for(int i=0; busca[i]; i++) if(busca[i]=='\n') busca[i]=0;
+    do
+    {
+        printf("Digite pelo menos 3 letras do nome da pessoa para busca-la:\n>>> ");
+        getchar();
+        fgets(busca, 50, stdin);
+    } while (strlen(busca) <= 2);
 
-    int validador_de_busca = 0;  // 
-    printf("%d\n", cont);  // teste
-    for (int u=0; u < cont; u++){ // u >> varredura do vetor 'pessoas' até que o tamanho desse vetor (cont)
-        printf("Entrou for de U\n"); // teste
-        validador_de_busca = 0;
-        if(pessoas[u].matricula>0){
-            printf("Entrou if 1\n"); // teste
-            buscalen = strlen(busca);
-            for (int i=0; i < buscalen; i++){ // i >> varredura da string digitada pelo usuário para busca
-                printf("Entrou for de I\n"); // teste
-                len = strlen(pessoas[u].nome);
-                for (int i2=0; i2<(len-buscalen); i2++){ // i2 >> varredura de nome referente
-                    printf("Entrou for de I2\n"); // teste
-                    if(busca[i]==pessoas[u].nome[i2]){
-                        printf("Entrou if validador\n"); // teste
-                        validador_de_busca ++;
-                        i++;
-                    }else{
-                        validador_de_busca = 0;                    
-                    }
-                    if(validador_de_busca>=buscalen){
-                        if(pessoas[u].classificacao==1){
-                            char tipo_pessoa[] = "Aluno";
-                        }else{
-                            char tipo_pessoa[] = "Professor";
-                        }
-                        printf("Nome do %s: %s, Matricula: %lld\n", tipo_pessoa, pessoas[u].nome, pessoas[u].matricula);
-                    }
-                    
-                }
+    for(int i=0; busca[i]; i++) if(busca[i]=='\n') busca[i]=0;
+    do{        	
+        pont_busca = strstr(pessoas[u].nome, busca);
+
+        if( pont_busca != NULL ){
+            if( pessoas[u].classificacao == 1){
+                //char tipo_pessoa[] = "Aluno";
+                tipo_pessoa = "Aluno";
+            } else if(pessoas[u].classificacao == 0){
+                //char tipo_pessoa[] = "Professor";
+                tipo_pessoa = "Professor";
             }
+            printf("Nome do %s: %s, Matricula: %lld\n", tipo_pessoa, pessoas[u].nome, pessoas[u].matricula);
         }
-        
-    }
+        u++;
+    } while (u <= cont);
+
 }
 
 // 13 - Lista de Alunos Matriculados em Menos de 3 Disciplinas
@@ -463,6 +621,18 @@ int menu_cadastro(void){
                 
             } while (cadastrar_novamente == 1);
             menu_inicial();
+        
+        case 2: // Excluir Aluno
+            do 
+            {
+                excluir_novamente = excluir_pessoa(opcao_cadastro, excluir_novamente);
+            } while (excluir_novamente == 1);
+            menu_inicial();
+
+        case 3: // Alterar Aluno
+
+            menu_inicial();
+            
         }
 
     case 2: //Cadastro de Professor.
@@ -560,6 +730,14 @@ int menu_relatorio(void){
         lista_disciplinas();
         menu_relatorio();
 
+    case 6:
+        ordenar(opcao_relatorio);
+        menu_relatorio();
+
+    case 9:
+        ordenar(opcao_relatorio);
+        menu_relatorio();
+
     case 12:
         buscar_pessoa();
         menu_relatorio();
@@ -571,7 +749,8 @@ int menu_relatorio(void){
 
 
 //   Main Function 
-int main(){    
+int main(){
+
     while (verificador_menu_inicial == 1){
         menu_inicial();
                
@@ -583,22 +762,7 @@ int main(){
 
 /* 
 
-int excluir_pessoa (void){//função de excluir cadastro
-    int ver4 = 0;
-    printf("Digite a matricula do aluno ou professor que deseja excluir.\n");
-    scanf("%d", &matricula_exclusao);
-    u = 0; // contador do vetor geral do cadastro
-    while (ver4 == 0){
-        if (matricula_exclusao == pessoas[u].matricula){
-            pessoas[u].matricula = -1;
-            ver4++;
-        }
-        else{
-            u++;
-        }
-    }
-    return(-20);
-}
+
 
 int atualizar_pessoa(void){ ///função de atualizar cadastro
     int matricula_alterar;
