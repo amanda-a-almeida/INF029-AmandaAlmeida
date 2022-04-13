@@ -1,2 +1,2 @@
-language = "c"
-run
+language = "bash"
+run = ""
