@@ -1,0 +1,8 @@
+Comando Qestões 01 - 06:
+gcc novoCorretor.c AmandaAlmeida20212160004T1.c -o t1 -lm
+
+Comando Qestão 07:
+gcc AmandaAlmeida20212160004Q7.c -o q7
+
+Comando Qestão 08:
+gcc AmandaAlmeida20212160004Q8.c -o q8
