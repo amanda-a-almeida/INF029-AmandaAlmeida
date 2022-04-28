@@ -169,8 +169,14 @@ int difdma(){
   if(didia <= dfdia){
     difdia = dfdia - didia;
   }else{
-    difdia = 30 - (didia - dfdia);
-    dfmes --;
+    if (dfmes == (4||6||9||11)){
+        difdia = 30 - (didia - dfdia);
+      }else if( dfmes == 2){
+        difdia = 29 - (didia - dfdia);
+      }else{
+        difdia = 31 - (didia - dfdia);
+      }
+      dfmes --;
   }
    if(dimes <= dfmes){
       difmes = dfmes - dimes;
@@ -253,9 +259,9 @@ int varredura(char *texto, char c, int isCaseSensitive, int cont,  int tam){
       verificador[i] = 'i';      
     }else if (verificador[i] == ("I" || "Í")){
       verificador[i] = 'I';      
-    }else if (verificador[i] == ("o" || "ó" || "õ")){
+    }else if (verificador[i] == ("o" || "ó" || "ô" || "õ")){
       verificador[i] = 'o';      
-    }else if (verificador[i] == ("O" || "Ó" || "Õ")){
+    }else if (verificador[i] == ("O" || "Ó" || "Ô" ||"Õ")){
       verificador[i] = 'O';      
     }else if (verificador[i] == ("u" || "ú")){
       verificador[i] = 'u';      
