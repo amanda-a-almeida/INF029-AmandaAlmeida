@@ -25,7 +25,7 @@
 #define AmandaAlmeida20212160004T1_H
 
 // Variávei Globais
-int reposta, dd, mm, aa, divalida, didia, dimes, diano, dfvalida,  dfdia, dfmes, dfano, difdia, difmes, difano;
+int respQuebData, dd, mm, aa, divalida, didia, dimes, diano, dfvalida,  dfdia, dfmes, dfano, difdia, difmes, difano;
 char *texto;
 
 typedef struct DQ
