@@ -114,7 +114,7 @@ DataQuebrada quebraData(char data[]){
   }else{
     dq.valido = valida_data(dq.iDia, dq.iMes, dq.iAno);
   }  
-  reposta = dq.valido;
+  respQuebData = dq.valido;
 }
 
 // Questão 01
@@ -135,7 +135,7 @@ DataQuebrada quebraData(char data[]){
 int q1(char data[])
 {
   quebraData(data);
-  return reposta;
+  return respQuebData;
 }
 
 // Questão 02
